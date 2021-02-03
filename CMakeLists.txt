@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(floam_ssl)
 
 set(CMAKE_BUILD_TYPE "Release")
-set(CMAKE_CXX_FLAGS "-std=c++14")
+set(CMAKE_CXX_FLAGS "-std=c++11")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -g")
 
 find_package(catkin REQUIRED COMPONENTS
@@ -31,8 +31,22 @@ else()
   set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
 endif()
 find_package(PCL REQUIRED)
+
+
+
 find_package(Ceres REQUIRED)
+#if (NOT Ceres_FOUND)
+#  set(CERES_INCLUDE_DIRS "/usr/include/ceres")
+#  set(CERES_LIBRARY_DIRS "/usr/lib/")
+#endif()
 find_package(octomap REQUIRED)
+
+
+if (CERES_FOUND)
+  message(INFO " "${CERES_LIBRARIES})
+  message(INFO " "${CERES_INCLUDE_DIRS})
+  message(INFO " "${CERES_LIBRARY_DIRS})
+endif()
 
 include_directories(
   include
@@ -52,11 +66,15 @@ link_directories(
 
 catkin_package(
   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs
-  DEPENDS EIGEN3 PCL Ceres 
+  DEPENDS EIGEN3 PCL CERES 
   INCLUDE_DIRS include
 )
 
-
+install(DIRECTORY rviz	launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  FILES_MATCHING
+  PATTERN "*"
+)
 
 add_executable(floam_ssl_laser_processing_node src/laserProcessingNode.cpp src/laserProcessingClass.cpp src/lidar.cpp)
 target_link_libraries(floam_ssl_laser_processing_node ${EIGEN3_LIBRARIES} ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${CERES_LIBRARIES})
