@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.1)
 project(floam_ssl)
-
+SET(PROJECT_NAME floam_ssl)
 set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_CXX_FLAGS "-std=c++11")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -g")
@@ -87,3 +87,9 @@ target_link_libraries(floam_ssl_laser_mapping_node ${EIGEN3_LIBRARIES} ${catkin_
 
 add_executable(floam_ssl_octo_mapping_node src/octoMappingNode.cpp src/octoMappingClass.cpp src/lidar.cpp)
 target_link_libraries(floam_ssl_octo_mapping_node ${EIGEN3_LIBRARIES} ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${CERES_LIBRARIES} ${OCTOMAP_LIBRARIES})
+
+
+#force install to catkin install space 
+INSTALL(TARGETS floam_ssl_laser_processing_node floam_ssl_odom_estimation_node floam_ssl_laser_mapping_node floam_ssl_octo_mapping_node
+        RUNTIME DESTINATION lib/${PROJECT_NAME}
+        LIBRARY DESTINATION lib/${PROJECT_NAME})

@@ -3,11 +3,11 @@
 
   
     <!-- <param name="/use_sim_time" value="false" /> -->
-    <include file="$(find floam_ssl)/launch/rs_camera.launch">
-        <arg name="color_width" value="640" />
-        <arg name="color_height" value="480" />
+    <!-- <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <arg name="color_width" value="1280" />
+        <arg name="color_height" value="720" />
         <arg name="filters" value="pointcloud" />
-    </include>
+    </include> -->
     <param name="scan_period" value="0.1" />
 
     <param name="vertical_angle" type="double" value="2.0" />
@@ -28,7 +28,7 @@
 
     <!-- <node pkg="tf" type="static_transform_publisher" name="odom_to_map"      args="0.0 0.0 0.0 0 0 0.0 /map /odom 40" />
     <node pkg="tf" type="static_transform_publisher" name="odom_to_baselink" args="0.0 0.0 0.0 0 0 0.0 /odom /base_link 40" /> -->
-    <node pkg="tf" type="static_transform_publisher" name="base_camera" args="0.0 0.0 0.0 0 0 0.0 /base_link /camera_link 40" />
+    <node pkg="tf" type="static_transform_publisher" name="base_camera" args="0.0 0.0 0.0 0 0 0.0 /xtion_rgb_frame /camera_link 40" />
     
     <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_floam_ssl" ns="floam_ssl" >
         <param name="/target_frame_name" value="map" />
